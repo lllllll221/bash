@@ -1,1 +1,1 @@
-/home/lllll/bash/text.txt
+/home/lllll/bash/src/cat/text.txt
