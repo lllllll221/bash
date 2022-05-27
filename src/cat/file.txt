@@ -1,1 +1,1 @@
-/home/lllll/bash/src/cat/text.txt
+-b /home/lllll/bash/src/cat/text.txt
