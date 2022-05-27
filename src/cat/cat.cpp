@@ -34,6 +34,7 @@ std::string ParseQuery(const std::string& query) {
     return text;
 }
 
+/*
 void PrintFile(std::ifstream& file) {
     std::string line;
     while (!file.eof()) {
@@ -41,6 +42,7 @@ void PrintFile(std::ifstream& file) {
         std::cout << line << std::endl;
     }
 }
+*/
 /*
 Обработка флагов: b, e, n, s, t;
     -b - нумеровать только непустые строки;
@@ -55,7 +57,7 @@ void BFlag(std::ifstream& file) {
     while (!file.eof()) {
         getline (file, line);
         if (!line.empty()) {
-            std::cout << i << " " << line << std::endl;    
+            std::cout << i << " " << line << std::endl; 
         }
         i++;
     }
@@ -65,9 +67,7 @@ void EFlag(std::ifstream& file) {
     std::string line;
     while (!file.eof()) {
         getline (file, line);
-        if (!line.empty()) {
-            std::cout<< line << "$" << std::endl;    
-        }
+        std::cout << line << "$" << std::endl;
     }
 }
 
@@ -81,6 +81,36 @@ void NFlag(std::ifstream& file) {
     }
 }
 
+void SFlag(std::ifstream& file) {
+    std::set<std::string> lines;
+    std::string line;
+    while (!file.eof()) {
+        getline (file, line);
+        if (!line.empty() && !lines.count(line)) {
+            std::cout << line << std::endl;
+            lines.insert(line);  
+        }
+    }
+}
+
+void TFlag(std::ifstream& file) {
+    std::string line;
+    while (!file.eof()) {
+        int tab = 0;
+        getline (file, line);
+        for (char c : line) {
+            if (c = ' ') {
+                tab++;
+            }
+        }
+        if (tab > 1) {
+            std::cout << "^I" << line << std::endl;
+            continue;
+        }
+        std::cout << line << std::endl;
+    }
+}
+
 void ChooseFlag(const std::string& flag, std::ifstream& file) {
     if (flag == "b") {
         BFlag(file);
@@ -88,23 +118,12 @@ void ChooseFlag(const std::string& flag, std::ifstream& file) {
         EFlag(file);
     } else if (flag == "n") {
         NFlag(file);
-    } /*else if (flag == "s") {
+    } else if (flag == "s") {
         SFlag(file);
     } else if (flag == "t") {
         TFlag(file);
-    }*/
+    }
 }
-
-/*
-void SFlag(std::ifstream& file) {
-    std::set<std::string> lines;
-
-}
-
-void TFlag(std::ifstream& file) {
-
-}
-*/
 
 int main() {
     std::string query = ReadLine();
