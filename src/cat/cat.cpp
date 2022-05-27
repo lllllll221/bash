@@ -34,7 +34,6 @@ std::string ParseQuery(const std::string& query) {
     return text;
 }
 
-/*
 void PrintFile(std::ifstream& file) {
     std::string line;
     while (!file.eof()) {
@@ -42,11 +41,11 @@ void PrintFile(std::ifstream& file) {
         std::cout << line << std::endl;
     }
 }
-*/
+
 /*
 Обработка флагов: b, e, n, s, t;
     -b - нумеровать только непустые строки;
-    -E - показывать символ $ в конце каждой строки;
+    -e - показывать символ $ в конце каждой строки;
     -n - нумеровать все строки;
     -s - удалять пустые повторяющиеся строки;
     -t - отображать табуляции в виде ^I;
@@ -122,6 +121,8 @@ void ChooseFlag(const std::string& flag, std::ifstream& file) {
         SFlag(file);
     } else if (flag == "t") {
         TFlag(file);
+    } else {
+        PrintFile(file);
     }
 }
 
