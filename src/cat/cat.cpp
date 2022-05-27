@@ -1,6 +1,12 @@
 #include <iostream>
 #include <fstream>
+#include <set>
 #include <string>
+
+struct Cat {
+    std::string flag;
+    std::string directory;
+};
 
 std::string ReadLine() {
     std::string s;
@@ -31,23 +37,85 @@ std::string ParseQuery(const std::string& query) {
 void PrintFile(std::ifstream& file) {
     std::string line;
     while (!file.eof()) {
-      getline (file, line);
-      std::cout << line << std::endl;
+        getline (file, line);
+        std::cout << line << std::endl;
+    }
+}
+/*
+Обработка флагов: b, e, n, s, t;
+    -b - нумеровать только непустые строки;
+    -E - показывать символ $ в конце каждой строки;
+    -n - нумеровать все строки;
+    -s - удалять пустые повторяющиеся строки;
+    -t - отображать табуляции в виде ^I;
+*/
+void BFlag(std::ifstream& file) {
+    std::string line;
+    int i = 1;
+    while (!file.eof()) {
+        getline (file, line);
+        if (!line.empty()) {
+            std::cout << i << " " << line << std::endl;    
+        }
+        i++;
     }
 }
 
+void EFlag(std::ifstream& file) {
+    std::string line;
+    while (!file.eof()) {
+        getline (file, line);
+        if (!line.empty()) {
+            std::cout<< line << "$" << std::endl;    
+        }
+    }
+}
+
+void NFlag(std::ifstream& file) {
+    std::string line;
+    int i = 1;
+    while (!file.eof()) {
+        getline (file, line);
+        std::cout << i << " " << line << std::endl;
+        i++;
+    }
+}
+
+void ChooseFlag(const std::string& flag, std::ifstream& file) {
+    if (flag == "b") {
+        BFlag(file);
+    } else if (flag == "e") {
+        EFlag(file);
+    } else if (flag == "n") {
+        NFlag(file);
+    } /*else if (flag == "s") {
+        SFlag(file);
+    } else if (flag == "t") {
+        TFlag(file);
+    }*/
+}
+
+/*
+void SFlag(std::ifstream& file) {
+    std::set<std::string> lines;
+
+}
+
+void TFlag(std::ifstream& file) {
+
+}
+*/
+
 int main() {
     std::string query = ReadLine();
-    std::string flag = HookFlag(query);
-    std::string directory = ParseQuery(query);
-    std::string line;
+    Cat cat = {HookFlag(query), ParseQuery(query)};
     std::ifstream file;
-    file.open(directory);
+    file.open(cat.directory);
 
     if (file) {
-        std::cout << "Flag - " << flag << std::endl;
-        std::cout << "Directory - " << directory << std::endl;
-        PrintFile(file);
+        std::cout << "Flag - " << cat.flag << std::endl;
+        std::cout << "Directory - " << cat.directory << std::endl;
+        ChooseFlag(cat.flag, file);
         file.close();
         return 0;
     }
