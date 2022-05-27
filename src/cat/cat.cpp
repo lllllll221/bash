@@ -28,6 +28,14 @@ std::string ParseQuery(const std::string& query) {
     return text;
 }
 
+void PrintFile(std::ifstream& file) {
+    std::string line;
+    while (!file.eof()) {
+      getline (file, line);
+      std::cout << line << std::endl;
+    }
+}
+
 int main() {
     std::string query = ReadLine();
     std::string flag = HookFlag(query);
@@ -39,10 +47,7 @@ int main() {
     if (file) {
         std::cout << "Flag - " << flag << std::endl;
         std::cout << "Directory - " << directory << std::endl;
-        while (!file.eof()) {
-          getline (file, line);
-          std::cout << line << std::endl;
-        }
+        PrintFile(file);
         file.close();
         return 0;
     }
